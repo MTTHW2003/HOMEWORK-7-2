@@ -1,0 +1,46 @@
+
+from graphics import *
+
+def clickedButton(point, button):
+    p1 = button.getP1()
+    p2 = button.getP2()
+
+    if (point.getX() >= p1.getX() and
+        point.getX() <= p2.getX() and
+        point.getY() >= p1.getY() and
+        point.getY() <= p2.getY()):
+        return True
+    else:
+        return False
+
+
+def main():
+    win = GraphWin("Button Program", 400, 300)
+
+    button = Rectangle(Point(100, 100), Point(300, 200))
+    button.setFill("lightblue")
+    button.draw(win)
+
+    label = Text(Point(200, 150), "CLICK HERE")
+    label.draw(win)
+
+    message = Text(Point(200, 250), "Click the button!")
+    message.draw(win)
+
+    clicked = False
+
+    while not clicked:
+        point = win.getMouse()
+
+        if clickedButton(point, button):
+            clicked = True
+            message.setText("Button clicked!")
+            button.setFill("green")
+        else:
+            message.setText("Try again! Click inside the button.")
+
+    win.getMouse()
+    win.close()
+
+
+main()
