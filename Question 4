@@ -1,0 +1,58 @@
+
+from graphics import *
+import time
+
+def animateTo(ball, targetY):
+    currentY = ball.getCenter().getY()
+    distance = targetY - currentY
+
+    for i in range(40):
+        ball.move(0, distance / 40)
+        time.sleep(0.01)
+
+
+def main():
+    height = float(input("Enter the initial height in meters: "))
+
+    if height <= 0:
+        print("Height must be greater than zero.")
+        return
+
+    win = GraphWin("Bouncing Ball", 400, 500)
+
+    radius = height * 0.02
+
+    win.setCoords(0, 0, 10, height * 1.2)
+
+    ground = Line(Point(0, 0), Point(10, 0))
+    ground.draw(win)
+
+    ball = Circle(Point(5, radius + height), radius)
+    ball.setFill("red")
+    ball.draw(win)
+
+    message = Text(Point(5, height * 1.12), "Bouncing Ball")
+    message.draw(win)
+
+    bounces = 0
+    bounceHeight = height
+
+    while bounceHeight >= 0.001:
+
+        # Ball falls to the ground
+        animateTo(ball, radius)
+
+        # Ball bounces back to 60% of its height
+        bounceHeight = bounceHeight * 0.60
+        bounces = bounces + 1
+
+        if bounceHeight >= 0.001:
+            animateTo(ball, radius + bounceHeight)
+
+    message.setText("Total bounces: " + str(bounces))
+
+    time.sleep(2)
+    win.close()
+
+
+main()
